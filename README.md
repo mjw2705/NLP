@@ -12,4 +12,5 @@
 4. [Transformer](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/04_Transformer.pdf)
     <br>transformer 모델 구현
    
-5. BERT
+5. [BERT](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/06_BERT.pdf)
+    <br>bert 모델 구현
