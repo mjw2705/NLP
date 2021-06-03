@@ -6,11 +6,11 @@
 <br><https://jiho-ml.com/tag/weekly-nlp/> 보면서 정리
 
 딥러닝 모델
-1. [RNN](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/01_RNN.pdf)
-2. [LSTM / GRU](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/02_LSTM__GRU.pdf)
-3. [Seq2Seq](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/03_seq2seq.pdf)
-4. [Transformer](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/04_Transformer.pdf)
+1. [RNN](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/01_RNN.md)
+2. [LSTM / GRU](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/02_LSTM%2CGRU.md)
+3. [Seq2Seq](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/03_seq2seq.md)
+4. [Transformer](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/04_Transformer.md)
     <br>transformer 모델 구현
    
-5. [BERT](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/06_BERT.pdf)
+5. [BERT](https://github.com/mjw2705/NLP/blob/master/%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8/06_BERT.md)
     <br>bert 모델 구현
