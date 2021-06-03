@@ -1,0 +1,639 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>BERT</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="80cb525c-d217-4d19-8813-c03f060d0e4f" class="page sans"><header><h1 class="page-title">BERT</h1></header><div class="page-body"><h3 id="90c43c81-e036-4591-8f7e-0709a630ce39" class=""><mark class="highlight-red">BERT (Bidrectional Encoder Representations from Transformers)</mark></h3><p id="1b25fef8-1a55-4162-a4f1-5d5316679806" class="">대용량 unlabled data로 모델을 학습시킨후, 특정 task를 가지고 있는 labeled data로 transfer learning하는 모델</p><p id="1fd2b699-bd47-4c99-8174-812b53a7b00e" class="">BERT이전에는 language 모델을 학습하고, 뒤쪽에 특정 task를 처리하는 network를 붙이는 방식 (ELMo, GPT ..)</p><p id="9aa6ad53-faad-4cbe-b3df-e8cbe2bb8430" class="">BERT는 새로운 network를 붙일 필요 없이 BERT 모델 자체의 fine-tuning을 통해 task 처리</p><figure id="f39c7ff0-2858-4422-9188-0ad8a35edd1a" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled.png"><img style="width:954px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled.png"/></a><figcaption>BERT의 프로세스</figcaption></figure><p id="08e353c8-3493-4416-b256-c7aa7a46b20c" class="">
+</p><ul id="509b2602-679c-4cb0-b219-354b9e9b8eee" class="bulleted-list"><li><mark class="highlight-red_background">model architecture</mark><p id="9e0aa9f4-fdb0-42d9-9e9b-2ebd832c1cb8" class="">transformer의 encoder 부분만 사용</p><figure id="5e547fda-5d75-48e5-afec-428dd9fa6063" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%201.png"><img style="width:351px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%201.png"/></a></figure><p id="e24ab1c5-6aef-4f8b-af4a-e73c93be71d9" class="">모델의 크기에 따라 분류<div class="indented"><ul id="54f74128-c97c-4723-8651-25317efc1a64" class="bulleted-list"><li>BERT_base : layer = 12, hidden size = 768, self-attention head 수 = 12, 전체 파라미터 = 1.1억 (GPT와 동일한 사이즈)</li></ul><ul id="39719e9e-d10b-4090-8fcd-f036b660e532" class="bulleted-list"><li>BERT_large : layer = 24, hidden size = 1024, self-attention head 수 = 16, 전체 파라미터 = 3.4억</li></ul></div></p></li></ul><p id="e36b6c51-6560-4eed-99e0-ec2124ada128" class="">
+</p><ul id="d4092019-ef59-415d-ac77-fc489e8f0fe8" class="bulleted-list"><li><mark class="highlight-red_background">Input embedding</mark><figure id="f267c9f8-9b7e-4ab3-b412-bd4f1abca702" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%202.png"><img style="width:624px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%202.png"/></a></figure><p id="a079213b-ebd5-49f2-a133-10f22fb84860" class="">3가지 입력 임베딩을 취합해 하나의 임베딩 값을 만듦 + layer normalization + dropout 적용 ⇒ 입력</p><ol id="cf92d82a-0727-4517-b2c7-9017a9cf09ec" class="numbered-list" start="1"><li><mark class="highlight-blue">token embedding</mark><p id="7d425ea2-5c81-4a80-826d-a07979b6b796" class="">WordPiece임베딩 방법을 사용 : 자주 등장하면서 가장 긴 길이의 sub-word를 하나의 단위로 만들고, 자주 등장하지 않는 rare-word를 sub-word로 쪼개서 만든다. </p><p id="d00c5f6c-a307-44d6-8d92-5c9fe236fd1f" class="">두 가지 특수 토큰 (CLS, SEP)을 사용해 문장을 구별</p><p id="0b628fbf-f37c-4bd7-bf91-abecfa0bd966" class="">기존 임베딩 방법과 다르게 Out-of-Vocabulary(OOV) 문제가 없어짐</p></li></ol><ol id="87d56eeb-fd9d-4f32-a07c-643b7194b3ac" class="numbered-list" start="2"><li><mark class="highlight-blue">segment embedding</mark><p id="82219745-fc7b-4236-aa3c-4b60dbbfbcdb" class="">두 개의 문장을 문장 구분자([SEP])와 합쳐서 입력</p><p id="feedf654-488e-417c-b304-443f430d8464" class="">입력 길이는 두 문장을 합쳐서 512 subword 이하로 제한</p></li></ol><ol id="763e2b0c-532a-43aa-bc13-e04f3c666a32" class="numbered-list" start="3"><li><mark class="highlight-blue">position embedding</mark><p id="1787f3e1-5541-4c6d-83cf-9cad677e24d9" class="">self-attention모델을 사용하기 위해 입력 토큰의 위치 정보를 줘야함</p><p id="500977a3-3fb3-40ff-bf14-96848fd462bb" class="">transformer에서는 sinusoid함수를 이용해 positional encoding을 하고, BERT에서는 이를 변형해서 position encoding 사용 (단순히 token 순서대로 0, 1, 2 ..)</p></li></ol></li></ul><p id="fab5e0ea-5ef1-48dc-a7d9-46269cc8150d" class="">
+</p><ul id="e20c6e50-a19f-49fc-bfdb-f5de54f5f6b8" class="bulleted-list"><li><mark class="highlight-red_background">pre-training BERT : unsupervise 방법 2가지</mark><ol id="d591958f-e17b-44e5-87e5-717e6d7a18ef" class="numbered-list" start="1"><li>기존 방법<p id="30f333f3-7c5a-4bf4-95e9-a8ef3f44457c" class="">ELMo나 GPT는 language model을 사용 : 앞의 n개 단어를 가지고 뒤의 단어 예측 → unidirectional (단방향) : left to right 이나 right to left</p></li></ol><ol id="01f9251f-ead5-47b8-ba58-c8435a67bfa3" class="numbered-list" start="2"><li><mark class="highlight-blue">Masked Language Model (MLM)</mark> 방법<p id="9a5f79af-e4cb-4e4e-954b-e658adc721d9" class="">input에서 무작위로 몇개의 token을 mask시키고 transformer의 encoder 구조에 입력하면 주변 단어의 문맥만을 보고 mask된 단어 예측 → 문맥을 파악하는 능력을 기름</p><figure id="7571045c-9ed9-4bf6-9d81-4cbf2f3f5586" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%203.png"><img style="width:576px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%203.png"/></a></figure><figure id="ac64f07b-6759-4691-a57f-1f9c8c1da8f3" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%204.png"><img style="width:576px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%204.png"/></a></figure><p id="17ef0a68-de55-4e48-994d-7950c5918326" class=""> 단어의 15%를 mask token으로 변경해서 mask token만을 예측하는 pre-training task 수행<div class="indented"><p id="432feb75-7245-4229-baeb-d72eedf253a2" class="">→ 이때, 80% : mask token, 10% : token을 random 단어로 변경, 10% : token을 원래 단어 그대로</p></div></p><p id="8ceb6d0f-8e95-4d8b-9d61-57d8bb3bebfb" class="">mask token은 fine-tuning시에는 사용되지 않음</p></li></ol><ol id="37c2d450-4e78-4e3e-8193-197f73e03b43" class="numbered-list" start="3"><li><mark class="highlight-blue">Next Sentence Prediction (NSP) </mark>방법<p id="65be159a-2518-4aac-aded-ccc258ef32d7" class="">두 문장을 pre-training 시 같이 넣고, 두 문장이 이어지는 문장인지 아닌지 맞추는 것 → QA나 Natural Language Inference(NLI)와 같이 두 문장 사이 관계가 중요한 모델에 필요</p><figure id="21c90539-f9fa-42e3-a47b-e4fa7d88c5f2" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%205.png"><img style="width:651px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%205.png"/></a></figure><p id="23d006e3-c3f9-48c4-a6dc-116287e862aa" class="">50%는 두 문장이 실제로 연관이 있는 예제, 50%는 두 문장이 서로 연관이 없는 예제</p></li></ol></li></ul><p id="8587b22e-a968-4eaf-affa-ec89512bb95c" class="">
+</p><ul id="d37d7039-dab9-4f9d-946a-fa7feffbd2c3" class="bulleted-list"><li>pre-training 절차<ol id="de94a7fc-b55d-4566-a769-636018488d8a" class="numbered-list" start="1"><li>NSP를 위해 문장을 뽑아서 임베딩</li></ol><ol id="2007cf85-6aca-4806-a70d-75ddb54a5325" class="numbered-list" start="2"><li>Masking 작업</li></ol><ol id="761e5f5f-1993-4768-8f19-b6ee5905264c" class="numbered-list" start="3"><li>하이퍼파라미터 : 배치 사이즈 256, Adam 옵티마이저, dropout 0.1, gelu 활성화 함수 사용</li></ol><p id="4dd32fe3-83d0-4ac3-a380-af8c8d723dfe" class="">
+</p></li></ul><ul id="38818f2f-ef60-4a93-9eef-2eaa13733504" class="bulleted-list"><li><mark class="highlight-red_background">fine-tuning (transfer learning : 전이학습)</mark><figure id="f3707326-aca8-4982-a199-fcef2d15bf80" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%206.png"><img style="width:624px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%206.png"/></a><figcaption>11개 task에 대한 fine-tuning</figcaption></figure><p id="5e98d869-90d7-4ec1-888a-c5f937f93b6c" class="">a) 문제 쌍 분류 문제로 두 문장을 하나의 입력으로 넣고 두 문장의 관계를 구함</p><p id="568fb352-95b3-417a-a6c7-59af301336e4" class="">b) 한 문장을 입력으로 넣고 문장의 종류 분류</p><p id="1ca3afc7-7ec4-4756-af89-90005d252583" class="">c) 문장이나 문단 내에서 원하는 정답 위치의 시작과 끝을 구함</p><p id="9c2ed525-59e2-4e70-a355-ebda718da5e0" class="">d) 입력 문장의 token명이나 품사를 구하는 문제</p><p id="7bc5cec7-d022-40b3-954d-1765f237fd0c" class="">
+</p><figure id="0ef54699-297f-4fb7-9bd0-7b90a476065f" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%207.png"><img style="width:951px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%207.png"/></a></figure><p id="124e726b-282d-4301-9e7a-07506d6c0046" class="">
+</p></li></ul><ul id="3922b5d2-cd31-4d5d-95e8-b1dfed8af65d" class="bulleted-list"><li>Ablation 연구<ul id="9c1192d4-af74-41f2-8b94-4eb0d867cec2" class="bulleted-list"><li>effect of pre-training task<figure id="a34dd959-9b12-45fe-8538-18c23254d37f" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%208.png"><img style="width:480px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%208.png"/></a></figure><p id="54130950-a976-446b-9d78-11229270c021" class="">BERT의 두가지 학습방법 (MLM, NSP)를 제거하며 결과 비교</p></li></ul><p id="f9ada6ef-3afb-4103-9228-69725cd50b55" class="">
+</p><ul id="62a57471-84a8-4449-aa35-7aaab3700a20" class="bulleted-list"><li>effect of model size<figure id="c4d2c8f9-6279-470d-aa57-5fbe367b022f" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%209.png"><img style="width:432px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%209.png"/></a></figure><p id="9c67d020-4fa5-4ec2-9698-2916a2f68844" class="">모델이 커질수록 정확도 상승</p></li></ul><p id="3e764244-3f3c-483d-b4f7-78c16b535fb3" class="">
+</p><ul id="d5de6037-42fd-412a-9364-ac40f6d85870" class="bulleted-list"><li>effect of number of training steps<figure id="6d0cdbe9-fdfc-4813-9fda-2be33e1ed983" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%2010.png"><img style="width:480px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%2010.png"/></a></figure><p id="1a88182a-2cad-44ae-bb2a-b51e6c53a2c8" class="">
+</p></li></ul><ul id="24429a64-354b-42dc-812a-d1a09c145ac0" class="bulleted-list"><li>feature-based approach with BERT<p id="7f3ac8c5-c36a-4298-9848-c798938362d6" class="">ELMo와 같이 특정 NLP task를 수행할 수 있는 network를 부착하여 쓸 수 있음</p><figure id="df0d9384-d71e-4cdc-8c43-1ca17b3dcaa9" class="image"><a href="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%2011.png"><img style="width:480px" src="BERT%20f39c7ff02858442291880ad8a35edd1a/Untitled%2011.png"/></a></figure><p id="7ebb3f53-9be5-4b10-bd20-d699b9f16afd" class="">finetune all과 성능 차이가 별로 없다</p></li></ul><p id="8f01ba3d-209b-496a-9084-83305fb876ff" class="">
+</p><figure id="49e01745-a678-4565-a834-3b1b5b64a36f"><a href="https://mino-park7.github.io/nlp/2018/12/12/bert-%EB%85%BC%EB%AC%B8%EC%A0%95%EB%A6%AC/?fbclid=IwAR3S-8iLWEVG6FGUVxoYdwQyA-zG0GpOUzVEsFBd0ARFg4eFXqCyGLznu7w#35-fine-tuning-procedure" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">BERT 논문정리</div><div class="bookmark-description">최근에 NLP 연구분야에서 핫한 모델인 BERT 논문을 읽고 정리하는 포스트입니다. 구성은 논문을 쭉 읽어나가며 정리한 포스트기 때문에 논문과 같은 순서로 정리하였습니다. Tmax Data AI 연구소에서 제가 진행한 세미나 동영상도 첨부합니다. BERT : Bidirectional Encoder Representations form Transformer 논문의 제목에서 볼 수 있듯이, 본 논문은 &quot;Attention is all you need(Vaswani et al., 2017)&quot;(arxiv)에서 소개한 Transformer 구조를 활용한 Language Representation에 관한 논문입니다.</div></div><div class="bookmark-href"><img src="https://mino-park7.github.io/public/favicon.ico" class="icon bookmark-icon"/>https://mino-park7.github.io/nlp/2018/12/12/bert-%EB%85%BC%EB%AC%B8%EC%A0%95%EB%A6%AC/?fbclid=IwAR3S-8iLWEVG6FGUVxoYdwQyA-zG0GpOUzVEsFBd0ARFg4eFXqCyGLznu7w#35-fine-tuning-procedure</div></div><img src="https://cdn-images-1.medium.com/max/2000/0*ViwaI3Vvbnd-CJSQ.png" class="bookmark-image"/></a></figure></li></ul></div></article></body></html>
